@@ -31,8 +31,8 @@ m[1:n] = solve(C, b)
 A = []
 B = []
 for i in range(n):
-    A_i = ((h[i] ** 2) / 6) * m[i] + y[i]
-    B_i = ((h[i] ** 2) / 6) * m[i + 1] + y[i + 1]
+    A_i = -((h[i] ** 2) / 6) * m[i] + y[i]
+    B_i = -((h[i] ** 2) / 6) * m[i + 1] + y[i + 1]
     A.append(A_i)
     B.append(B_i)
 
