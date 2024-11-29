@@ -56,16 +56,29 @@ def calculate_second_derivative(x_val, i, x_i, x_i_prev, h_i, m_i_prev, m_i):
     term2 = m_i * (x_val - x_i_prev) / h_i
     return term1 + term2
 
+def format_matrix_output(matrix, matrix_name):
+
+    rows, cols = matrix.shape
+    print(f"\nМатриця {matrix_name}:")
+    col_widths = [max(len(f"{val:.8f}") if abs(val) > 1e-10 else len("  ···  ") for val in matrix[:, j]) for j in
+                  range(cols)]
+
+    for i, row in enumerate(matrix):
+        formatted_row = []
+        for j, val in enumerate(row):
+            if abs(val) > 1e-10:
+                formatted_row.append(f"{val:.8f}".rjust(col_widths[j]))
+            else:
+                formatted_row.append("  ···  ".rjust(col_widths[j]))
+
+        print(f"[{' '.join(formatted_row)}]")
+
 print("")
+
 print("h_i:", [float(round(val, 2)) for val in h])
 
-print("\nМатриця C:")
-for row in C:
-    print(f"[{' '.join(f'{val:.8f}' for val in row)}]")
-
-print("\nМатриця H:")
-for row in H:
-    print(f"[{' '.join(f'{val:.8f}' for val in row)}]")
+format_matrix_output(C, "C")
+format_matrix_output(H, "H")
 
 print("\nВектор b:")
 print([float(f"{val:.8f}") for val in b])
