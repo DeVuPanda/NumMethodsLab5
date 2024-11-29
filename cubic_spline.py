@@ -56,6 +56,7 @@ def calculate_second_derivative(x_val, i, x_i, x_i_prev, h_i, m_i_prev, m_i):
     term2 = m_i * (x_val - x_i_prev) / h_i
     return term1 + term2
 
+
 def format_matrix_output(matrix, matrix_name):
 
     rows, cols = matrix.shape
@@ -65,13 +66,28 @@ def format_matrix_output(matrix, matrix_name):
 
     for i, row in enumerate(matrix):
         formatted_row = []
+        positions_dots = []
+
         for j, val in enumerate(row):
             if abs(val) > 1e-10:
                 formatted_row.append(f"{val:.8f}".rjust(col_widths[j]))
             else:
                 formatted_row.append("  ···  ".rjust(col_widths[j]))
+                positions_dots.append(j)
+
+        if positions_dots:
+            start = None
+            for idx, pos in enumerate(positions_dots):
+                if start is None:
+                    start = pos
+                if idx == len(positions_dots) - 1 or positions_dots[idx + 1] != pos + 1:
+                    end = pos
+                    formatted_row[start] = f"{0:.8f}".rjust(col_widths[start])
+                    formatted_row[end] = f"{0:.8f}".rjust(col_widths[end])
+                    start = None
 
         print(f"[{' '.join(formatted_row)}]")
+
 
 print("")
 
